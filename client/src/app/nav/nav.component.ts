@@ -15,7 +15,15 @@ export class NavComponent {
   constructor(private accountService: AccountService) {}
 
   ngOnInit(): void {
+    this.getCurrentUser();
+  }
 
+  //temporary - will use async pipe
+  getCurrentUser() {
+    this.accountService.currentUser$.subscribe({
+      next: user => this.loggedIn = !!user,
+      error:error => console.log(error)
+    })
   }
 
   login() {
@@ -26,8 +34,11 @@ export class NavComponent {
       },
       error: error => console.log(error)
     });
+  }
 
-    console.log(this.user);
+  logout () {
+    this.accountService.logout();
+    this.loggedIn = false;
   }
 
 
