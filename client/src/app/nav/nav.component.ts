@@ -8,29 +8,17 @@ import { AccountService } from '../_services/account.service';
 })
 export class NavComponent {
   
-  model: any = {}
-  loggedIn = false
-  user: any = {} 
-
-  constructor(private accountService: AccountService) {}
+  model: any = {};
+  constructor(public accountService: AccountService) {}
 
   ngOnInit(): void {
-    this.getCurrentUser();
-  }
-
-  //temporary - will use async pipe
-  getCurrentUser() {
-    this.accountService.currentUser$.subscribe({
-      next: user => this.loggedIn = !!user,
-      error:error => console.log(error)
-    })
+  
   }
 
   login() {
     this.accountService.login(this.model).subscribe({
       next: response => {
         console.log(response);
-        this.loggedIn = true;
       },
       error: error => console.log(error)
     });
@@ -38,8 +26,5 @@ export class NavComponent {
 
   logout () {
     this.accountService.logout();
-    this.loggedIn = false;
   }
-
-
 }
